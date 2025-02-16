@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h2>Hotel Room Management</h2>
+    
+    <h3>Add New Room</h3>
+    <input type="text" id="roomNumber" placeholder="Room Number">
+    <input type="text" id="type" placeholder="Type (Single, Double, etc.)">
+    <input type="text" id="status" placeholder="Status (Available, Booked)">
+    <input type="number" id="price" placeholder="Price">
+    <input type="number" id="capacity" placeholder="Capacity">
+    <button onclick="addRoom()">Add Room</button>
+    
+    <h3>All Rooms</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Room Number</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>Capacity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="roomTableBody"></tbody>
+    </table>
+    
+    <script>
+        const API_URL = 'http://localhost:8080/rooms';
+        
+        function fetchRooms() {
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('roomTableBody');
+                    tableBody.innerHTML = '';
+                    data.forEach(room => {
+                        tableBody.innerHTML += `
+                            <tr>
+                                <td>${room.id}</td>
+                                <td>${room.roomNumber}</td>
+                                <td>${room.type}</td>
+                                <td>${room.status}</td>
+                                <td>${room.price}</td>
+                                <td>${room.capacity}</td>
+                                <td>
+                                    <button onclick="deleteRoom(${room.id})">Delete</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                });
+        }
+        
+        function addRoom() {
+            const room = {
+                roomNumber: document.getElementById('roomNumber').value,
+                type: document.getElementById('type').value,
+                status: document.getElementById('status').value,
+                price: parseFloat(document.getElementById('price').value),
+                capacity: parseInt(document.getElementById('capacity').value)
+            };
+            
+            fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(room)
+            }).then(() => {
+                fetchRooms();
+            });
+        }
+        
+        function deleteRoom(id) {
+            fetch(`${API_URL}/${id}`, {
+                method: 'DELETE'
+            }).then(() => {
+                fetchRooms();
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', fetchRooms);
+    </script>
+</body>
+</html>
