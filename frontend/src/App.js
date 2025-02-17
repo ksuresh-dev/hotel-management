@@ -46,14 +46,14 @@ export default function App() {
                 <tbody>
                     {rooms.map((room) => (
                         <tr key={room.id}>
-                            <td className="border p-2">{room.id}</td>
+                            <td className="border p-2">{room.roomId}</td>
                             <td className="border p-2">{room.roomNumber}</td>
-                            <td className="border p-2">{room.type}</td>
-                            <td className="border p-2">{room.status}</td>
+                            <td className="border p-2">{room.roomType}</td>
+                            <td className="border p-2">{room.roomStatus}</td>
                             <td className="border p-2">{room.price}</td>
                             <td className="border p-2">{room.capacity}</td>
                             <td className="border p-2">
-                                <button onClick={() => deleteRoom(room.id)} className="bg-red-500 text-white px-2 py-1">Delete</button>
+                                <button onClick={() => deleteRoom(room.roomId)} className="bg-red-500 text-white px-2 py-1">Delete</button>
                             </td>
                         </tr>
                     ))}
