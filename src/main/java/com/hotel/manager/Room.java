@@ -1,8 +1,13 @@
 package com.hotel.manager;
 
-import java.math.BigDecimal;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "room")
@@ -20,7 +25,7 @@ public class Room {
     private RoomType roomType;
 
     @Column(nullable = false)
-    private BigDecimal pricePerNight;
+    private double pricePerNight;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -30,4 +35,27 @@ public class Room {
     private int capacity;
 
     // Constructors, Getters, and Setters
+    public Long getId() {
+        return roomId;
+    }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public RoomType getType() {
+        return roomType;
+    }
+
+    public RoomStatus getStatus() {
+        return status;
+    }
+
+    public double getPrice() {
+        return pricePerNight;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
 }
